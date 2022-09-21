@@ -1,0 +1,25 @@
+{
+    "name": "subcom/twill-leads",
+    "description": "A twill package",
+    "homepage": "https://github.com/SubcomDev/twill-leads",
+    "license": "MIT",
+    "require": {
+        "area17/twill": "^2.6",
+        "maatwebsite/excel": "^3.1",
+        "mcamara/laravel-localization": "^1.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Leads\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Leads\\LeadsServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
