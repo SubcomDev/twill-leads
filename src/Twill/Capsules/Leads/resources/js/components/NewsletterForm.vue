@@ -140,7 +140,7 @@ export default {
                     this.errors.push(error.response.data.message);
                     setTimeout(() => (this.elementVisible = false), 7000);
                 });
-            // this.$refs.form.reset();
+            this.$refs.form.reset();
         },
     },
 };
