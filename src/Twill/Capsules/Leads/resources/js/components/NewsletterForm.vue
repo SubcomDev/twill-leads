@@ -59,6 +59,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
     name: "NewsletterForm",
 
@@ -115,52 +116,31 @@ export default {
      */
     methods: {
         /**
-         * controll
-         * 1.checked
-         * 2.mail
-         *  2.1 required
-         *  2.2 mail format
          *
          *
          */
         sendData: function () {
-            /**
-             * controll
-             * 1.checked
-             * 2.mail
-             *  2.1 required
-             */
+            let form = new FormData();
 
-            if (this.email !== "" && this.checked !== false) {
-                let form = new FormData();
+            form.append("email", this.email);
 
-                form.append("email", this.email);
-
-                this.post(
+            axios
+                .post(
                     "api/register/leads?locale=" + this.locale,
                     form,
                     this.handleMailResponse
-                );
-            } else if (this.email === "") {
-                this.handleMailResponse;
-            } else {
-                this.handleMailResponse;
-            }
-            this.$refs.form.reset();
-        },
-
-        /**
-         *
-         */
-        handleMailResponse: function (response) {
-            if (response.status == 200) {
-                this.success.push(response.data.message);
-                setTimeout(() => (this.elementSVisible = false), 7000);
-            } else if (response.status == 422) {
-                this.errors.push(response.data.message);
-                setTimeout(() => (this.elementVisible = false), 7000);
-            }
-            this.$refs.form.reset();
+                )
+                .then((response) => {
+                    if (response.status == 200) {
+                        this.success.push(response.data.message);
+                        setTimeout(() => (this.elementSVisible = false), 7000);
+                    }
+                })
+                .catch((error) => {
+                    this.errors.push(error.response.data.message);
+                    setTimeout(() => (this.elementVisible = false), 7000);
+                });
+            // this.$refs.form.reset();
         },
     },
 };
