@@ -1,4 +1,4 @@
-@extends('admin.layouts.free')
+@extends('twill::layouts.main')
 
 
 
