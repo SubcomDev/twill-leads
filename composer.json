@@ -5,7 +5,7 @@
     "license": "MIT",
     "require": {
         "area17/twill": "^2.6",
-        "maatwebsite/excel": "*",
+        "maatwebsite/excel": "3.1",
         "mcamara/laravel-localization": "^1.7"
     },
     "autoload": {
