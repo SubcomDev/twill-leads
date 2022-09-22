@@ -2,15 +2,11 @@
 
 namespace Leads\Twill\Capsules\Leads\Http\Controllers\Admin;
 
-// use A17\Twill\Http\Controllers\Admin\ModuleController as BaseModuleController;
-// use A17\Twill\Http\Controllers\Admin\Controller;
+
 use App\Http\Controllers\Controller;
-// use App\Exports\LeadExport;
-use Leads\Twill\Capsules\Leads\Exports\LeadExport;
 use Leads\Twill\Capsules\Leads\Models\Lead;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
 
 class LeadController extends Controller
 {
@@ -109,13 +105,29 @@ class LeadController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    public function export(Request $request)
+    public function export()
     {
-        $ids = isset($request->ids) ? explode(',', $request->ids) : Lead::all('id');
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename=leads-' . date("Y-m-d-h-i-s") . '.csv');
+        $output = fopen('php://output', 'w');
 
-        $this->updateExported($ids);
+        fputcsv($output, array('Id','Email','Created_at'));
 
-        return Excel::download(new  \Leads\Twill\Capsules\Leads\Exports\LeadExport($ids), 'lids.xlsx');
+        $products = Lead::get();
+
+        if (count($leads) > 0) {
+
+            foreach ($leads as $lead) {
+
+                $lead_row = [
+                    $lead['id'],
+                    ucfirst($lead['email']),
+                    $lead->created_at->format('d, m, Y, h:m:s'),
+                ];
+
+                fputcsv($output, $lead_row);
+            }
+        }
     }
 
     /**
