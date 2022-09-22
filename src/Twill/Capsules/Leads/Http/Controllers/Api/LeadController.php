@@ -1,6 +1,6 @@
 <?php
 
-namespace Leads\Twill\Capsules\Leads\Controllers\Api;
+namespace Leads\Twill\Capsules\Leads\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Leads\Twill\Capsules\Leads\Repositories\LeadRepository;
