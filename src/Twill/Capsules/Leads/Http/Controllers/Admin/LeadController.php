@@ -113,7 +113,7 @@ class LeadController extends Controller
 
         fputcsv($output, array('Id','Email','Created_at'));
 
-        $products = Lead::get();
+        $leads = Lead::get();
 
         if (count($leads) > 0) {
 
