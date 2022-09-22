@@ -126,7 +126,7 @@ export default {
 
             axios
                 .post(
-                    "api/register/leads?locale=" + this.locale,
+                    "register/leads?locale=" + this.locale,
                     form,
                     this.handleMailResponse
                 )

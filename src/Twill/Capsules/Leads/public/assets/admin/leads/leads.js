@@ -287,7 +287,7 @@ export default {
 
                 form.append("email", this.editedItem.email);
 
-                await axios.post("api/updated/leads/" + editedItem.id, form, this.handleMailResponse);
+                await axios.post("updated/leads/" + editedItem.id, form, this.handleMailResponse);
 
                 this.success = true;
 

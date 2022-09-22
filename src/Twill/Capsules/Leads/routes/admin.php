@@ -11,5 +11,6 @@ Route::get('/leads/export',[Leads\Twill\Capsules\Leads\Http\Controllers\Admin\Le
 Route::get('/leads/delete/bulk',[Leads\Twill\Capsules\Leads\Http\Controllers\Admin\LeadController::class, 'bulkDelete'])->name('leads.delete');
 Route::get('/leads/delete/{id}',[Leads\Twill\Capsules\Leads\Http\Controllers\Admin\LeadController::class, 'destroy'])->name('lead.delete');
 
+
 //leads
 Route::module('leads');

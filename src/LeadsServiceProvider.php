@@ -10,6 +10,7 @@ class LeadsServiceProvider extends TwillPackageServiceProvider
     *
     */
     public function boot(): void {
+        $this->loadRoutesFrom(__DIR__. '/Twill/Capsules/Leads/routes/web.php');
         parent::boot();
     }
 
