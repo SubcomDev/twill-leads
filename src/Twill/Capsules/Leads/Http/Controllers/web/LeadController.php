@@ -1,6 +1,6 @@
 <?php
 
-namespace Leads\Twill\Capsules\Leads\Http\Controllers\Api;
+namespace Leads\Twill\Capsules\Leads\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use Leads\Twill\Capsules\Leads\Repositories\LeadRepository;
@@ -62,6 +62,19 @@ class LeadController extends Controller
 
         return response()->json([
             'message' => __('success.updated')
+        ], 200);
+    }
+
+    public static function delete(Request $request,$id)
+    {
+
+        /**
+         * delete client.
+         */
+        Lead::where('id',$id)->delete(['email' => $request->get('email'),]);
+
+        return response()->json([
+            'message' => __('success.deleted')
         ], 200);
     }
 }

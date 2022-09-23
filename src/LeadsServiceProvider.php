@@ -22,6 +22,7 @@ class LeadsServiceProvider extends TwillPackageServiceProvider
 
         $this->publishes([
             __DIR__ . '/Twill/Capsules/Leads/resources/views/admin/leads/leads.blade.php' => base_path('resources/views/admin/leads/leads.blade.php'),
+            __DIR__ . '/Twill/Capsules/Leads/resources/views/emails/contact.blade.php' => base_path('resources/views/emails/contact.blade.php'),
             __DIR__ . '/Twill/Capsules/Leads/resources/js/components/NewsletterForm.vue' => base_path('resources/js/components/NewsletterForm.vue'),
             __DIR__ . '/Twill/Capsules/Leads/resources/views/admin/blocks' => base_path('resources/views/admin/blocks'),
             __DIR__ . '/Twill/Capsules/Leads/resources/views/site/blocks' => base_path('resources/views/site/blocks'),
@@ -48,8 +49,10 @@ class LeadsServiceProvider extends TwillPackageServiceProvider
 
         $this->publishes([
             __DIR__ . '/Twill/Capsules/Leads/Http/Controllers/Admin/LeadController.php' => base_path('app/Http/Controllers/Admin/LeadController.php'),
-            __DIR__ . '/Twill/Capsules/Leads/Http/Controllers/Api/LeadController.php' => base_path('app/Http/Controllers/Api/LeadController.php'),
+            __DIR__ . '/Twill/Capsules/Leads/Http/Controllers/Web/LeadController.php' => base_path('app/Http/Controllers/Web/LeadController.php'),
+            __DIR__ . '/Twill/Capsules/Leads/Http/Controllers/Web/ContactController.php' => base_path('app/Http/Controllers/Web/ContactController.php'),
 
+            __DIR__ . '/Twill/Capsules/Leads/Mail/ContactMail.php' => base_path('app/Mail/ContactMail.php'),
             __DIR__ . '/Twill/Capsules/Leads/Repositories/LeadRepository.php' => base_path('app/Repositories/LeadRepository.php'),
 
         ] ,'twill-lead-controller');

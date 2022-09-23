@@ -165,6 +165,12 @@ export default {
             headers: [
                 { text: 'E-Mail', align: 'start', value: 'email', },
                 { text: 'Creato', align: 'center', value: 'created_at', formatDate: 'yyyy-MM-dd' },
+                { text: 'FirstName', align: 'center', value: 'first_name' },
+                { text: 'LastName', align: 'center', value: 'last_name' },
+                { text: 'Company', align: 'center', value: 'company' },
+                { text: 'PhoneNr', align: 'center', value: 'phone_nr' },
+                { text: 'Message', align: 'center', value: 'message' },
+                { text: 'Role', align: 'center', value: 'role' },
                 { text: 'Azioni', value: 'actions', sortable: false, align: 'end' }],
             options: {
                 descending: true,

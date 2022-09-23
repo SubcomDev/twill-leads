@@ -19,7 +19,12 @@ composer require subcom/twill-leads
 
 1. Run command:
 ```bash
-php artisan vendor:publish --provider="Leads\LeadsServiceProvider"
+php artisan vendor:publish --provider="Leads\LeadsServiceProvider" --tag="twill-leads-views"
+php artisan vendor:publish --provider="Leads\LeadsServiceProvider" --tag="twill-leads-views-site"
+php artisan vendor:publish --provider="Leads\LeadsServiceProvider" --tag="twill-success-lang"
+php artisan vendor:publish --provider="Leads\LeadsServiceProvider" --tag="twill-resources-success-lang"
+php artisan vendor:publish --provider="Leads\LeadsServiceProvider" --tag="twill-leads-public-assets-admin-leads"
+php artisan vendor:publish --provider="Leads\LeadsServiceProvider" --tag="twill-leads-database"
 ```
 
 2. Run command:
