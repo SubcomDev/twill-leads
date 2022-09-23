@@ -10,10 +10,10 @@ class CreateLeadsTables extends Migration
     {
         Schema::create('leads', function (Blueprint $table) {
             $table->id();
-            $table->string('email');
+            $table->string('email')->nullable();
             $table->dateTime('exported_at')->nullable();
-            $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
+            $table->timestamps();
             $table->timestamp('published')->nullable();
         });
 
