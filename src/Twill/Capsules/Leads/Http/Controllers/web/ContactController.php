@@ -48,7 +48,6 @@ class ContactController extends Controller
         $lead = \Leads\Twill\Capsules\Leads\Models\Lead::create([
             'first_name' => $request['first_name'],
             'last_name' => $request['last_name'],
-            'email' => $request['email'],
             'phone_nr' => $request['phone_nr'],
             'company' => $request['company'],
             'message' => $request['message'],
