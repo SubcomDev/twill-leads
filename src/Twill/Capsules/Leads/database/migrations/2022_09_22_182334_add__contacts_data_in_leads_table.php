@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('last_name')->nullable();
             $table->string('company')->nullable();
             $table->string('phone_nr')->nullable();
-            $table->text('subject')->nullable();
+            $table->text('email')->nullable();
             $table->text('message')->nullable();
             $table->enum('role', ['contact_type', 'newslater_type']);
             // $table->dropColumn('deleted_at');

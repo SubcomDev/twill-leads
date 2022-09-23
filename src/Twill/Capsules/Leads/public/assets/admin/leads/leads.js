@@ -334,7 +334,7 @@ export default {
 
             let options = {
                 method: 'GET',
-                url: '/leads/delete/bulk?ids=' + ids.join(','),
+                url: 'delete/leads?ids=' + ids.join(','),
                 headers: { 'Content-Type': 'multipart/form-data' },
                 responseType: 'delete'
             }
@@ -355,7 +355,7 @@ export default {
 
             this.dialogDelete = true;
             this.item = item
-            this.deleteUrl = '/leads/delete/' + item.id;
+            this.deleteUrl = 'delete/leads' + item.id;
         },
 
         /**

@@ -37,6 +37,31 @@ php artisan migrate
 app.component('NewsletterForm', defineAsyncComponent(() =>
     import('./components/NewsletterForm.vue')
 ));
+
+// app.component('ContactForm', defineAsyncComponent(() =>
+//     import('./components/ContactForm.vue')
+// ));
+```
+
+4. Add this to config/twill.php in blocks
+5. ```php
+    'leads' => [
+
+        'title' => 'Leads',
+        'icon' => 'quote',
+        'component' => 'a17-block-leads',
+        'path' => base_path('vendor/subcom/twill-leads/src/Twill/Capsules/Leads/resources/views/admin/blocks'),
+        'source' => A17\Twill\Services\Blocks\Block::SOURCE_TWILL,
+    ],
+
+    'contactform' => [
+
+    'title' => 'ContactForm',
+    'icon' => 'quote',
+    'component' => 'a17-block-contactform',
+    'path' => base_path('vendor/subcom/twill-leads/src/Twill/Capsules/Leads/resources/views/admin/blocks'),
+    'source' => A17\Twill\Services\Blocks\Block::SOURCE_TWILL,
+    ],
 ```
 
 ## Changelog

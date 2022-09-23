@@ -36,7 +36,8 @@ class ContactController extends Controller
     {
         // $request->validate([
         //     'first_name' => 'required',
-        //     'last_name' => 'required|email',
+        //     'last_name' => 'required',
+        //     'email' => 'required|email',
         //     'phone_nr' => 'required|digits:10|numeric',
         //     'company' => 'required',
         //     'message' => 'required'
@@ -47,15 +48,18 @@ class ContactController extends Controller
         $lead = \Leads\Twill\Capsules\Leads\Models\Lead::create([
             'first_name' => $request['first_name'],
             'last_name' => $request['last_name'],
-            'subject' => $request['subject'],
+            'email' => $request['email'],
             'phone_nr' => $request['phone_nr'],
             'company' => $request['company'],
             'message' => $request['message'],
         ]);
 
         $lead->save();
+        // dd((Mail::to("donaldodemiri@gmail.com")));
+        Mail::to("donaldodemiri@gmail.com")->send(new \Leads\Twill\Capsules\Leads\Mail\ContactMail($lead));
+        // Mail::to("donaldodemiri@gmail.com")->send(new ContactMail($lead));
 
-        Mail::to("donaldodemiri@gmail.com")->send(new ContactMail($lead));
+
 
         return back()->with(['success' => 'Thank you for contact us. we will contact you shortly.']);
     }

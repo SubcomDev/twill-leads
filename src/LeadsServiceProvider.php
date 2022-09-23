@@ -24,9 +24,12 @@ class LeadsServiceProvider extends TwillPackageServiceProvider
             __DIR__ . '/Twill/Capsules/Leads/resources/views/admin/leads/leads.blade.php' => base_path('resources/views/admin/leads/leads.blade.php'),
             __DIR__ . '/Twill/Capsules/Leads/resources/views/emails/contact.blade.php' => base_path('resources/views/emails/contact.blade.php'),
             __DIR__ . '/Twill/Capsules/Leads/resources/js/components/NewsletterForm.vue' => base_path('resources/js/components/NewsletterForm.vue'),
-            __DIR__ . '/Twill/Capsules/Leads/resources/views/admin/blocks' => base_path('resources/views/admin/blocks'),
             __DIR__ . '/Twill/Capsules/Leads/resources/views/site/blocks' => base_path('resources/views/site/blocks'),
         ],'twill-leads-views');
+
+        $this->publishes([
+            __DIR__ . '/Twill/Capsules/Leads/resources/views/admin/blocks' => base_path('resources/views/admin/blocks'),
+        ],'twill-leads-blocks');
 
         $this->publishes([
             __DIR__ . '/Twill/Capsules/leads/resources/views/site/' => base_path('resources/views/site'),
@@ -41,11 +44,6 @@ class LeadsServiceProvider extends TwillPackageServiceProvider
             __DIR__ . '/Twill/Capsules/leads/resources/lang/en/success.php' => base_path('resources/lang/en/success.php'),
             __DIR__ . '/Twill/Capsules/leads/resources/lang/it/success.php' => base_path('resources/lang/it/success.php'),
         ],'twill-resources-success-lang');
-
-        $this->publishes([
-            __DIR__ . '/Twill/Capsules/Leads/Exports/LeadExport.php' => app_path('/Exports/LeadExport.php'),
-
-        ] ,'twill-lead-export');
 
         $this->publishes([
             __DIR__ . '/Twill/Capsules/Leads/Http/Controllers/Admin/LeadController.php' => base_path('app/Http/Controllers/Admin/LeadController.php'),

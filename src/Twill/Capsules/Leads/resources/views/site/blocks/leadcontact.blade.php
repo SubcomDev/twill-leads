@@ -46,6 +46,16 @@
                                     @endif
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <strong>Email:</strong>
+                                    <input type="text" name="email" class="form-control" placeholder="email"
+                                        value="{{ old('email') }}" required>
+                                    @if ($errors->has('email'))
+                                        <span class="text-danger">{{ $errors->first('email') }}</span>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
@@ -82,7 +92,7 @@
                         </div>
 
                         <div class="form-group text-center">
-                            <input type="submit" class="btn btn-success btn-submit" value="Submit" />
+                            <button class="btn btn-success btn-submit">Submit</button>
                         </div>
                     </form>
                 </div>
