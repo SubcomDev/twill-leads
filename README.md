@@ -38,13 +38,13 @@ app.component('NewsletterForm', defineAsyncComponent(() =>
     import('./components/NewsletterForm.vue')
 ));
 
-// app.component('ContactForm', defineAsyncComponent(() =>
-//     import('./components/ContactForm.vue')
-// ));
+app.component('ContactForm', defineAsyncComponent(() =>
+    import('./components/ContactForm.vue')
+));
 ```
 
-4. Add this to config/twill.php in blocks
-5. ```php
+1. Add this to config/twill.php in 'directories' => 'source' =>  'blocks'
+ ```php
     'leads' => [
 
         'title' => 'Leads',
