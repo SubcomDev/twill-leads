@@ -8,8 +8,7 @@
                     {{ title }}
                 </h1>
                 <p class="text-center mt-12 lg:mt-40">{{ description }}</p>
-                <iframe name="votar" style="display: none"></iframe>
-                <form id="form" ref="form" target="votar" @submit="sendData">
+                <form id="form" ref="form"  >
                     <p v-if="errors.length">
                         <span
                             v-for="error in errors"
@@ -46,7 +45,7 @@
 
                     <div class="my-10 text-center">
                         <button
-                            type="submit"
+                        @click="sendData"
                             class="bg-blue-200 md:px-3 border-blue-500 lg:w-48 w-full h-10 rounded-sm font-bold"
                         >
                             {{ "Add" }}
@@ -119,7 +118,7 @@ export default {
          *
          *
          */
-        sendData: function () {
+        sendData: function (e) {
             let form = new FormData();
 
             form.append("email", this.email);
@@ -140,7 +139,8 @@ export default {
                     this.errors.push(error.response.data.message);
                     setTimeout(() => (this.elementVisible = false), 7000);
                 });
-            this.$refs.form.reset();
+                this.$refs.form.reset();
+                this.email = '';
         },
     },
 };
