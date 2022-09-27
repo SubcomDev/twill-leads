@@ -45,11 +45,6 @@ class LeadsServiceProvider extends TwillPackageServiceProvider
         ],'twill-resources-success-lang');
 
         $this->publishes([
-            __DIR__ . '/Twill/Capsules/Leads/Exports/LeadExport.php' => app_path('/Exports/LeadExport.php'),
-
-        ] ,'twill-lead-export');
-
-        $this->publishes([
             __DIR__ . '/Twill/Capsules/Leads/Http/Controllers/Admin/LeadController.php' => base_path('app/Http/Controllers/Admin/LeadController.php'),
             __DIR__ . '/Twill/Capsules/Leads/Http/Controllers/Web/LeadController.php' => base_path('app/Http/Controllers/Web/LeadController.php'),
 

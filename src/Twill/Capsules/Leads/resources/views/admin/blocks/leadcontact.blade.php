@@ -9,10 +9,9 @@
 ])
 
 @formField('input', [
-'name' => 'message',
+'name' => 'success_message',
 'label' => 'Message',
-'maxlength' => 200,
 'type' => 'textarea',
+'translated' => true,
 'placeholder' => 'Message',
 ])
-

@@ -35,7 +35,7 @@ class ContactController extends Controller
      */
     public function store(Request $request, Lead $lead)
     {
-        $email = $request->get('base_email');
+        $email = $request->get('admin_email');
 
         $role = $lead->role;
         $role = 'contact_type';
