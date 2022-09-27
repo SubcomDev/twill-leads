@@ -7,3 +7,12 @@
 'required' => true,
 'placeholder' => 'Email',
 ])
+
+@formField('input', [
+'name' => 'message',
+'label' => 'Message',
+'maxlength' => 200,
+'type' => 'textarea',
+'placeholder' => 'Message',
+])
+
