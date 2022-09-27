@@ -36,6 +36,7 @@ const template = `
                         <v-dialog
                             v-model="dialog"
                             max-width="500px"
+
                         >
                             <v-card>
                                 <v-card-title>
@@ -43,7 +44,54 @@ const template = `
                                 </v-card-title>
                                 <v-card-text>
                                     <v-container>
-                                        <v-row>
+                                        <v-row v-if="!(editedItem.first_name === null && editedItem.last_name === null && editedItem.company === null && editedItem.phone_nr === null)">
+                                        <v-col  cols="12" sm="6" md="4">
+                                                <v-text-field
+                                                v-model="editedItem.email"
+                                                label="Email"
+                                                ></v-text-field>
+                                                <span v-if="success" style="color:green">Aggiornato con successo</span>
+                                                <span v-else-if="wrongEmail" style="color:red">Indirizzo email errato</span>
+                                                <span v-else-if="uniqueEmail" style="color:red">L'e-mail è già stata presa</span>
+                                                <span v-if="requiredEmail" style="color:red">I Email sono obbligatori</span>
+                                            </v-col>
+
+                                            <v-col  cols="12" sm="6" md="4">
+                                                <v-text-field
+                                                v-model="editedItem.first_name"
+                                                label="Nome"
+                                                ></v-text-field>
+                                                <span v-if="success" style="color:green">Aggiornato con successo</span>
+                                                <span v-if="requiredNome" style="color:red">I Nome sono obbligatori</span>
+                                            </v-col>
+                                            <v-col  cols="12" sm="6" md="4">
+                                            <v-text-field
+                                                v-model="editedItem.last_name"
+                                                label="Cognome"
+                                                ></v-text-field>
+                                                <span v-if="success" style="color:green">Aggiornato con successo</span>
+                                                <span v-if="requiredCognome" style="color:red">I Cognome sono obbligatori</span>
+                                            </v-col>
+                                            <v-col  cols="12" sm="6" md="4">
+                                                <v-text-field
+                                                v-model="editedItem.company"
+                                                label="Azienda"
+                                                ></v-text-field>
+                                                <span v-if="success" style="color:green">Aggiornato con successo</span>
+                                                <span v-if="requiredCompany" style="color:red">I Azienda sono obbligatori</span>
+                                            </v-col>
+                                            <v-col  cols="12" sm="6" md="4">
+                                                <v-text-field
+                                                v-model="editedItem.phone_nr"
+                                                label="Telefone"
+                                                ></v-text-field>
+                                                <span v-if="success" style="color:green">Aggiornato con successo</span>
+                                                <span v-if="requiredPhone" style="color:red">I Phone sono obbligatori</span>
+                                                <span v-else-if="wrongPhone" style="color:red">Indirizzo Telefone errato</span>
+                                            </v-col>
+
+                                        </v-row>
+                                        <v-row v-else>
                                             <v-col>
                                                 <v-text-field
                                                 v-model="editedItem.email"
@@ -52,26 +100,26 @@ const template = `
                                                 <span v-if="success" style="color:green">Aggiornato con successo</span>
                                                 <span v-else-if="wrongEmail" style="color:red">Indirizzo email errato</span>
                                                 <span v-else-if="uniqueEmail" style="color:red">L'e-mail è già stata presa</span>
-                                                </v-col>
+                                            </v-col>
                                         </v-row>
                                     </v-container>
                                 </v-card-text>
                                 <v-card-actions>
-                                <v-spacer></v-spacer>
-                                <v-btn
-                                    color="blue darken-1"
-                                    text
-                                    @click="close"
-                                >
-                                    Annulla
-                                </v-btn>
-                                <v-btn
-                                    color="blue darken-1"
-                                    text
-                                    @click.stop="updated(editedItem)"
-                                >
-                                    Aggiornare
-                                </v-btn>
+                                    <v-spacer></v-spacer>
+                                    <v-btn
+                                        color="blue darken-1"
+                                        text
+                                        @click="close"
+                                    >
+                                        Annulla
+                                    </v-btn>
+                                    <v-btn
+                                        color="blue darken-1"
+                                        text
+                                        @click.stop="updated(editedItem)"
+                                    >
+                                        Aggiornare
+                                    </v-btn>
                                 </v-card-actions>
                             </v-card>
                         </v-dialog>
@@ -138,7 +186,7 @@ const template = `
 </v-app>
 `
 const emailRe = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
+const phoneno = /^\d{10}$/;
 
 
 export default {
@@ -150,7 +198,13 @@ export default {
                 email: '',
             },
             wrongEmail: false,
+            wrongPhone: false,
             uniqueEmail: false,
+            requiredEmail: false,
+            requiredNome: false,
+            requiredCognome: false,
+            requiredCompany: false,
+            requiredPhone: false,
             success: false,
             editedIndex: -1,
             dialog: false,
@@ -165,11 +219,11 @@ export default {
             headers: [
                 { text: 'E-Mail', align: 'start', value: 'email', },
                 { text: 'Creato', align: 'center', value: 'created_at', formatDate: 'yyyy-MM-dd' },
-                { text: 'FirstName', align: 'center', value: 'first_name' },
-                { text: 'LastName', align: 'center', value: 'last_name' },
-                { text: 'Company', align: 'center', value: 'company' },
-                { text: 'PhoneNr', align: 'center', value: 'phone_nr' },
-                { text: 'Message', align: 'center', value: 'message' },
+                { text: 'Nome', align: 'center', value: 'first_name' },
+                { text: 'Cognome', align: 'center', value: 'last_name' },
+                { text: 'Azienda', align: 'center', value: 'company' },
+                { text: 'Telefono', align: 'center', value: 'phone_nr' },
+                { text: 'Messaggio', align: 'center', value: 'message' },
                 { text: 'Role', align: 'center', value: 'role' },
                 { text: 'Azioni', value: 'actions', sortable: false, align: 'end' }],
             options: {
@@ -187,7 +241,7 @@ export default {
 
     computed: {
         formTitle() {
-            return this.editedIndex === -1 ? 'New Item' : 'Modifica E-Mail'
+            return this.editedIndex === -1 ? 'New Item' : 'Modifica'
         },
     },
 
@@ -256,7 +310,12 @@ export default {
         editItem(item) {
             // alert(item.email);
             this.editedIndex = item.email;
+            this.editedIndex = item.first_name;
+            this.editedIndex = item.last_name;
+            this.editedIndex = item.company;
+            this.editedIndex = item.phone_nr;
             this.editedItem = Object.assign({}, item)
+            console.log(this.editedItem = Object.assign({}, item));
             this.dialog = true;
 
         },
@@ -283,15 +342,32 @@ export default {
                 break;
             }
 
-
             if (!emailRe.test(this.editedItem.email)) {
                 this.wrongEmail = true;
 
+
+            }
+            else if (this.editItem.email === null || this.editedItem.first_name === null || this.editedItem.last_name === null || this.editedItem.company === null || this.editedItem.phone_nr === null) {
+
+                this.requiredEmail = true;
+                this.requiredNome = true;
+                this.requiredCognome = true;
+                this.requiredCompany = true;
+                this.requiredPhone = true;
+            }
+            else if (!phoneno.test(this.editedItem.phone_nr)) {
+                this.wrongPhone = true;
             } else {
+
 
                 let form = new FormData();
 
                 form.append("email", this.editedItem.email);
+                form.append("first_name", this.editedItem.first_name);
+                form.append("last_name", this.editedItem.last_name);
+                form.append("company", this.editedItem.company);
+                form.append("phone_nr", this.editedItem.phone_nr);
+
 
                 await axios.post("updated/leads/" + editedItem.id, form, this.handleMailResponse);
 
@@ -334,7 +410,7 @@ export default {
 
             let options = {
                 method: 'GET',
-                url: 'delete/leads?ids=' + ids.join(','),
+                url: '/leads/delete/bulk?ids=' + ids.join(','),
                 headers: { 'Content-Type': 'multipart/form-data' },
                 responseType: 'delete'
             }
@@ -355,7 +431,7 @@ export default {
 
             this.dialogDelete = true;
             this.item = item
-            this.deleteUrl = 'delete/leads' + item.id;
+            this.deleteUrl = '/leads/delete/' + item.id;
         },
 
         /**

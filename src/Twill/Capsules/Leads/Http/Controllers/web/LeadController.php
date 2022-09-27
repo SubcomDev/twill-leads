@@ -19,11 +19,15 @@ class LeadController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(Request $request,Lead $lead)
     {
+        $role = $lead->role;
+        $role = 'newslatter_type';
         $locale = $request->get('locale');
 
         LaravelLocalization::setLocale($locale);
+
+
 
          /*
          * validate request
@@ -34,6 +38,7 @@ class LeadController extends Controller
 
         $client = \Leads\Twill\Capsules\Leads\Models\Lead::create([
             'email' => $request->get('email'),
+            'role' => $role,
         ]);
 
          return response()->json([
@@ -71,7 +76,7 @@ class LeadController extends Controller
         /**
          * delete client.
          */
-        Lead::where('id',$id)->delete(['email' => $request->get('email'),]);
+        Lead::where('id',$id)->forceDelete(['email' => $request->get('email'),]);
 
         return response()->json([
             'message' => __('success.deleted')

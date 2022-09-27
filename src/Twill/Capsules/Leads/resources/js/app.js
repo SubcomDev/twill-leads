@@ -35,6 +35,10 @@ app.component('NewsletterForm', defineAsyncComponent(() =>
     import('./components/NewsletterForm.vue')
 ));
 
+app.component('ContactForm', defineAsyncComponent(() =>
+    import('./components/ContactForm.vue')
+));
+
 
 
 /**

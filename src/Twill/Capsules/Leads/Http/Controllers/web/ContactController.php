@@ -8,10 +8,11 @@ use Leads\Twill\Capsules\Leads\Repositories\LeadRepository;
 use Leads\Twill\Capsules\Leads\Models\Lead;
 use Illuminate\Support\Facades\Mail;
 use Leads\Twill\Capsules\Leads\Mail\ContactMail;
+use A17\Twill\Services\Blocks\Block;
+use Carbon\Carbon;
 
 class ContactController extends Controller
 {
-
     public function __construct(LeadRepository $repository)
     {
         $this->repository = $repository;
@@ -32,34 +33,42 @@ class ContactController extends Controller
      *
      * @return response()
      */
-    public function store(Request $request)
+    public function store(Request $request, Lead $lead)
     {
-        // $request->validate([
-        //     'first_name' => 'required',
-        //     'last_name' => 'required',
-        //     'email' => 'required|email',
-        //     'phone_nr' => 'required|digits:10|numeric',
-        //     'company' => 'required',
-        //     'message' => 'required'
-        // ]);
+        $email = $request->get('base_email');
 
-        $adminEmail = "donaldodemiri@gmail.com";
+        $role = $lead->role;
+        $role = 'contact_type';
+
+        $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => ['email','unique:leads'],
+            'phone_nr' => 'required|digits:10|numeric',
+            'company' => 'required',
+            'message' => 'required'
+        ]);
 
         $lead = \Leads\Twill\Capsules\Leads\Models\Lead::create([
             'first_name' => $request['first_name'],
             'last_name' => $request['last_name'],
+            'email' => $request['email'],
             'phone_nr' => $request['phone_nr'],
             'company' => $request['company'],
             'message' => $request['message'],
+            'role' => $role,
+
         ]);
 
+
+
         $lead->save();
-        // dd((Mail::to("donaldodemiri@gmail.com")));
-        Mail::to("donaldodemiri@gmail.com")->send(new \Leads\Twill\Capsules\Leads\Mail\ContactMail($lead));
-        // Mail::to("donaldodemiri@gmail.com")->send(new ContactMail($lead));
+        Mail::to($email)->send(new \Leads\Twill\Capsules\Leads\Mail\ContactMail($lead));
 
 
 
-        return back()->with(['success' => 'Thank you for contact us. we will contact you shortly.']);
+        return response()->json([
+            'message' => __('success.formSuccess')
+        ], 200);
     }
 }

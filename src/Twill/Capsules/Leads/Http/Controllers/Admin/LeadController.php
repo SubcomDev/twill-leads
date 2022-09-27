@@ -111,7 +111,7 @@ class LeadController extends Controller
         header('Content-Disposition: attachment; filename=leads-' . date("Y-m-d-h-i-s") . '.csv');
         $output = fopen('php://output', 'w');
 
-        fputcsv($output, array('Id','Email','Created_at'));
+        fputcsv($output, array('Id','Email','Created_at','FirstName','LastName','Azienda','Phone','Message','Type'));
 
         $leads = Lead::get();
 
@@ -123,6 +123,13 @@ class LeadController extends Controller
                     $lead['id'],
                     ucfirst($lead['email']),
                     $lead->created_at->format('d, m, Y, h:m:s'),
+                    $lead['first_name'],
+                    $lead['last_name'],
+                    $lead['company'],
+                    chunk_split($lead['phone_nr'], 3, ' '),
+                    $lead['message'],
+                    $lead['role'],
+
                 ];
 
                 fputcsv($output, $lead_row);

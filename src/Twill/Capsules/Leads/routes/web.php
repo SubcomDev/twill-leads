@@ -9,4 +9,4 @@ Route::post('delete/leads/{id}', [Leads\Twill\Capsules\Leads\Http\Controllers\We
 
 
 Route::get('contact-us', [Leads\Twill\Capsules\Leads\Http\Controllers\Web\ContactController::class, 'index']);
-Route::post('contact-us', [Leads\Twill\Capsules\Leads\Http\Controllers\Web\ContactController::class, 'store'])->name('contact.us.store');
+Route::post('contact-us/store', [Leads\Twill\Capsules\Leads\Http\Controllers\Web\ContactController::class, 'store'])->name('contact.us.store');
