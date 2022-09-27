@@ -27,7 +27,7 @@
                     </div>
 
                     <div class="my-10 text-center">
-                        <button @click="sendData"
+                        <button @click.prevent="sendData"
                             class="bg-blue-200 md:px-3 border-blue-500 lg:w-48 w-full h-10 rounded-sm font-bold">
                             {{ "Add" }}
                         </button>
@@ -106,7 +106,7 @@ export default {
 
             axios
                 .post(
-                    "leads/register?locale=" + this.locale,
+                    "/leads/register?locale=" + this.locale,
                     form,
                     this.handleMailResponse
                 )
