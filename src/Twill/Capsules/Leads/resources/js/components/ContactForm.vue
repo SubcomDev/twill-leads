@@ -1,16 +1,18 @@
 <template>
     <div class="flex flex-col">
         <form v-if="success.length == 0" ref="form" id="contactUSForm">
-            <input autoComplete="chrome-off" autoCorrect="chrome-off" autoCapitalize="chrome-off" type="text"
-                id="contact_name" class="form-control rounded-[8px] active-header w-full form-control mb-2.5"
-                placeholder="Nome*" v-model="first_name" :class="[
+            <input autoComplete="chrome-off" autoCorrect="chrome-off" autoCapitalize="chrome-off" minlength="3"
+                type="text" id="contact_name"
+                class="form-control rounded-[8px] active-header w-full form-control mb-2.5" placeholder="Nome*"
+                v-model="first_name" :class="[
                     errorClass.first_name,
                     errorClass.first_name === true ? 'error' : '',
                 ]" />
 
-            <input autoComplete="chrome-off" autoCorrect="chrome-off" autoCapitalize="chrome-off" type="text"
-                id="contact_surname" class="form-control rounded-[8px] active-header w-full form-control mb-2.5"
-                placeholder="Cognome*" v-model="last_name" :class="[
+            <input autoComplete="chrome-off" autoCorrect="chrome-off" autoCapitalize="chrome-off" minlength="3"
+                type="text" id="contact_surname"
+                class="form-control rounded-[8px] active-header w-full form-control mb-2.5" placeholder="Cognome*"
+                v-model="last_name" :class="[
                     errorClass.last_name,
                     errorClass.last_name === true ? 'error' : '',
                 ]" />
@@ -42,21 +44,12 @@
                 </label>
             </div>
 
-            <textarea autocomplete="chrome-off" type="text" rows="7" id="ham" v-model="message"
+            <textarea autocomplete="chrome-off" type="text" rows="7" id="ham" minlength="3" v-model="message"
+                :class="[errorClass.message, errorClass.message === true ? 'error' : '']"
                 class="form-control rounded-[8px] active-header w-full form-control mb-2.5"
                 placeholder="Messaggio*"></textarea>
             <div class="container relative flex flex-col items-center">
                 <button style="
-                        width: 96px;
-                        height: 44px;
-                        border: 1px solid #e7e9ff;
-                        border-radius: 30px;
-                    " v-if="
-                        !(this.first_name && this.last_name && this.email && this.message)
-                    " disabled class="text-gray-500">
-                    Send
-                </button>
-                <button v-else style="
                         width: 96px;
                         height: 44px;
                         border: 1px solid #e7e9ff;
@@ -68,7 +61,7 @@
             </div>
         </form>
         <p v-if="success.length">
-            <span v-for="suc in success" v-show="elementSVisible" class="text-green-700">
+            <span v-for="suc in success" class="text-green-700">
                 {{ suc }}
             </span>
         </p>

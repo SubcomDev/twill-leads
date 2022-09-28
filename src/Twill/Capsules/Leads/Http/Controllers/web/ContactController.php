@@ -34,7 +34,7 @@ class ContactController extends Controller
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => ['email','unique:leads'],
+            'email' => ['email','unique:leads','required'],
             'message' => 'required'
         ]);
 
@@ -56,16 +56,8 @@ class ContactController extends Controller
 
 
 
-        if ($validator->fails()) {
-            $errors = json_decode(json_encode($validator->errors()), 1);
-            return response()->json([
-                'success' => false,
-                'message' => array_reduce($errors, 'array_merge', array()),
-            ]);
-        } else {
-            return response()->json([
-                'message' => __('success.formSuccess')
-            ], 200);
-        }
+        return response()->json([
+            'message' => __('success.formSuccess')
+        ], 200);
     }
 }
