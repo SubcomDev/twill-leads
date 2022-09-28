@@ -49,28 +49,8 @@
                 class="form-control rounded-[8px] active-header w-full form-control mb-2.5"
                 placeholder="Messaggio*"></textarea>
             <div class="container relative flex flex-col items-center">
-                <!-- <button
-                    style="
-                        width: 96px;
-                        height: 44px;
-                        border: 1px solid #e7e9ff;
-                        border-radius: 30px;
-                    "
-                    v-if="
-                        !(this.first_name && this.last_name && this.email && this.message)
-                    "
-                    disabled
-                    class="text-gray-500"
-                >
-                    Send
-                </button> -->
-                <button style="
-                        width: 96px;
-                        height: 44px;
-                        border: 1px solid #e7e9ff;
-                        border-radius: 30px;
-                    " type="button" @click.prevent="sendData"
-                    class="text-center text-white bg-blue-700 sm:w-fit hover:bg-blue-700">
+                <button style="width: 96px; height: 44px" type="button" @click.prevent="sendData"
+                    class="border rounded-3xl text-center text-white bg-blue-700 sm:w-fit hover:bg-blue-700">
                     Send
                 </button>
             </div>
@@ -89,21 +69,6 @@ const expr = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+
 import axios from "axios";
 export default {
     name: "ContactForm",
-
-    /**
-     *
-     */
-    props: {
-        success_message: {
-            type: String,
-            default: null,
-        },
-
-        locale: {
-            type: String,
-            default: "it",
-        },
-    },
     /**
      *
      */
@@ -181,6 +146,7 @@ export default {
                         message: this.message,
                         admin_email: this.$attrs["admin_email"],
                         success_message: this.$attrs["success_message"],
+                        locale: this.$attrs["locale"],
                     },
 
                     this.handleMailResponse
@@ -222,9 +188,11 @@ export default {
 
         ValidateEmail: function () {
             if (!expr.test(this.email)) {
-                this.errorClass.email = true;
-            } else {
-                this.errorClass.email = false;
+                if (this.email.length >= 1) {
+                    this.errorClass.email = true;
+                } else {
+                    this.errorClass.email = false;
+                }
             }
         },
     },
