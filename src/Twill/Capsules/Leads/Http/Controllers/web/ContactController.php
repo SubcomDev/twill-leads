@@ -18,15 +18,6 @@ class ContactController extends Controller
         $this->repository = $repository;
     }
 
-    /**
-     * Write code on Method
-     *
-     * @return response()
-     */
-    public function index()
-    {
-        return view('admin.blocks.leadcontact');
-    }
 
     /**
      * Write code on Method
