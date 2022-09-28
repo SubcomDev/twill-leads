@@ -35,8 +35,6 @@ class ContactController extends Controller
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => ['email','unique:leads'],
-            'phone_nr' => 'required|digits:10|numeric',
-            'company' => 'required',
             'message' => 'required'
         ]);
 
@@ -58,8 +56,16 @@ class ContactController extends Controller
 
 
 
-        return response()->json([
-            'message' => __('success.formSuccess')
-        ], 200);
+        if ($validator->fails()) {
+            $errors = json_decode(json_encode($validator->errors()), 1);
+            return response()->json([
+                'success' => false,
+                'message' => array_reduce($errors, 'array_merge', array()),
+            ]);
+        } else {
+            return response()->json([
+                'message' => __('success.formSuccess')
+            ], 200);
+        }
     }
 }

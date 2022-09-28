@@ -6,7 +6,7 @@
                     {{ title }}
                 </h1>
                 <p class="text-center mt-12 lg:mt-40">{{ description }}</p>
-                <form id="form" ref="form">
+                <form id="form" ref="form" @submit="sendData">
                     <p v-if="errors.length">
                         <span v-for="error in errors" v-show="elementVisible" class="text-red-700">
                             {{ error }}
@@ -27,8 +27,7 @@
                     </div>
 
                     <div class="my-10 text-center">
-                        <button @click.prevent="sendData"
-                            class="bg-blue-200 md:px-3 border-blue-500 lg:w-48 w-full h-10 rounded-sm font-bold">
+                        <button class="bg-blue-200 md:px-3 border-blue-500 lg:w-48 w-full h-10 rounded-sm font-bold">
                             {{ "Add" }}
                         </button>
                     </div>
@@ -100,28 +99,25 @@ export default {
          *
          */
         sendData: function (e) {
+            e.preventDefault();
             let form = new FormData();
 
             form.append("email", this.email);
 
             axios
-                .post(
-                    "/leads/register?locale=" + this.locale,
-                    form,
-                    this.handleMailResponse
-                )
+                .post("/leads/register?locale=" + this.locale, form)
                 .then((response) => {
                     if (response.status == 200) {
                         this.success.push(response.data.message);
                         setTimeout(() => (this.elementSVisible = false), 7000);
                     }
+                    this.$refs.form.reset();
+                    this.email = "";
                 })
                 .catch((error) => {
                     this.errors.push(error.response.data.message);
                     setTimeout(() => (this.elementVisible = false), 7000);
                 });
-            // this.$refs.form.reset();
-            // this.email = '';
         },
     },
 };
