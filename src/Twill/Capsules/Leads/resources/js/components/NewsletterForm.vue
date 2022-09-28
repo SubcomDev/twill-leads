@@ -116,7 +116,13 @@ export default {
                 })
                 .catch((error) => {
                     this.errors.push(error.response.data.message);
-                    setTimeout(() => (this.elementVisible = false), 5000);
+                    setTimeout(
+                        () => ((this.elementVisible = false), (this.errors = [])),
+                        5000
+                    );
+
+                    if ((this.elementVisible = true))
+                        setTimeout(() => (this.elementVisible = false), 5000);
                 });
         },
     },
