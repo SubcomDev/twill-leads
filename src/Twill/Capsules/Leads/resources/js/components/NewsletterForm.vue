@@ -109,14 +109,14 @@ export default {
                 .then((response) => {
                     if (response.status == 200) {
                         this.success.push(response.data.message);
-                        setTimeout(() => (this.elementSVisible = false), 7000);
+                        setTimeout(() => (this.elementSVisible = false), 5000);
                     }
                     this.$refs.form.reset();
                     this.email = "";
                 })
                 .catch((error) => {
                     this.errors.push(error.response.data.message);
-                    setTimeout(() => (this.elementVisible = false), 7000);
+                    setTimeout(() => (this.elementVisible = false), 5000);
                 });
         },
     },
