@@ -193,6 +193,8 @@ export default {
                 } else {
                     this.errorClass.email = false;
                 }
+            } else {
+                this.errorClass.email = false;
             }
         },
     },
