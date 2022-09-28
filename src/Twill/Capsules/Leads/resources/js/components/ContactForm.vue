@@ -49,6 +49,21 @@
                 class="form-control rounded-[8px] active-header w-full form-control mb-2.5"
                 placeholder="Messaggio*"></textarea>
             <div class="container relative flex flex-col items-center">
+                <!-- <button
+                    style="
+                        width: 96px;
+                        height: 44px;
+                        border: 1px solid #e7e9ff;
+                        border-radius: 30px;
+                    "
+                    v-if="
+                        !(this.first_name && this.last_name && this.email && this.message)
+                    "
+                    disabled
+                    class="text-gray-500"
+                >
+                    Send
+                </button> -->
                 <button style="
                         width: 96px;
                         height: 44px;
@@ -60,8 +75,8 @@
                 </button>
             </div>
         </form>
-        <p v-if="success.length">
-            <span v-for="suc in success" class="text-green-700">
+        <p v-if="success.length || success_message" class="container relative flex flex-col items-center mt-16">
+            <span v-for="suc in success" class="text-green-700 text-2xl">
                 {{ suc }}
             </span>
         </p>
@@ -171,7 +186,7 @@ export default {
                 .then((response) => {
                     if (response.status == 200) {
                         if (this.$attrs["success_message"]) {
-                            this.success.push(this.success_message);
+                            this.success.push(this.$attrs["success_message"]);
                         } else {
                             this.success.push(response.data.message);
                         }

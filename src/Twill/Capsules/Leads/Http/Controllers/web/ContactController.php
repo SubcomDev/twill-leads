@@ -18,6 +18,15 @@ class ContactController extends Controller
         $this->repository = $repository;
     }
 
+    /**
+     * Write code on Method
+     *
+     * @return response()
+     */
+    public function index()
+    {
+        return view('admin.blocks.leadcontact');
+    }
 
     /**
      * Write code on Method
@@ -27,6 +36,7 @@ class ContactController extends Controller
     public function store(Request $request, Lead $lead)
     {
         $email = $request->get('admin_email');
+        $success_message = $request->get('success_message');
 
         $role = $lead->role;
         $role = 'contact_type';
@@ -55,9 +65,8 @@ class ContactController extends Controller
         Mail::to($email)->send(new \Leads\Twill\Capsules\Leads\Mail\ContactMail($lead));
 
 
-
         return response()->json([
-            'message' => __('success.formSuccess')
+            'message' => $success_message ? $success_message : __('success.formSuccess')
         ], 200);
     }
 }
