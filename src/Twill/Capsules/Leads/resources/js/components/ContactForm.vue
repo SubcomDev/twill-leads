@@ -19,7 +19,7 @@
 
             <input autoComplete="chrome-off" autoCorrect="chrome-off" autoCapitalize="chrome-off" type="email"
                 id="contact_email" class="form-control rounded-[8px] active-header w-full form-control mb-2.5"
-                placeholder="Email*" v-model="email"
+                placeholder="Email*" v-model="email" @keyup="ValidateEmail()"
                 :class="[errorClass.email, errorClass.email === true ? 'error' : '']" />
 
             <div class="input-field relative flex items-center">
@@ -84,6 +84,8 @@
 </template>
 
 <script>
+const expr = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+
 import axios from "axios";
 export default {
     name: "ContactForm",
@@ -216,6 +218,14 @@ export default {
                 });
 
             // this.$refs.form.reset();
+        },
+
+        ValidateEmail: function () {
+            if (!expr.test(this.email)) {
+                this.errorClass.email = true;
+            } else {
+                this.errorClass.email = false;
+            }
         },
     },
 };
