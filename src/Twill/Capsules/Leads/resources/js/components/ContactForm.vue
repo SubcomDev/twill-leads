@@ -52,8 +52,11 @@
             <div class="container relative flex flex-col items-center">
                 <button style="width: 96px; height: 44px" type="button" @click.prevent="sendData"
                     class="border rounded-3xl text-center text-white bg-blue-700 sm:w-fit hover:bg-blue-700">
-                    <img v-if="loading" class="loading -mt-3"
-                        :src="'https://images.squarespace-cdn.com/content/v1/5c4a3053b98a78bea1e90622/1575486969836-DQKSYYW7F60712AGPFKV/loader.gif'" />
+                    <div v-if="loading" class="looping-rhombuses-spinner">
+                        <div class="rhombus"></div>
+                        <div class="rhombus"></div>
+                        <div class="rhombus"></div>
+                    </div>
                     <span v-else>{{ this.label }}</span>
                 </button>
             </div>
@@ -213,9 +216,55 @@ export default {
 </script>
 
 <style scoped>
-.loading {
-    width: 200px;
+.looping-rhombuses-spinner,
+.looping-rhombuses-spinner * {
+    box-sizing: border-box;
 }
+
+.looping-rhombuses-spinner {
+    width: calc(15px * 4);
+    height: 15px;
+    position: relative;
+}
+
+.looping-rhombuses-spinner .rhombus {
+    height: 15px;
+    width: 15px;
+    background-color: #fff;
+    left: calc(15px * 4);
+    position: absolute;
+    margin: 0 auto;
+    border-radius: 2px;
+    transform: translateY(0) rotate(45deg) scale(0);
+    animation: looping-rhombuses-spinner-animation 2500ms linear infinite;
+}
+
+.looping-rhombuses-spinner .rhombus:nth-child(1) {
+    animation-delay: calc(2500ms * 1 / -1.5);
+}
+
+.looping-rhombuses-spinner .rhombus:nth-child(2) {
+    animation-delay: calc(2500ms * 2 / -1.5);
+}
+
+.looping-rhombuses-spinner .rhombus:nth-child(3) {
+    animation-delay: calc(2500ms * 3 / -1.5);
+}
+
+@keyframes looping-rhombuses-spinner-animation {
+    0% {
+        transform: translateX(0) rotate(45deg) scale(0);
+    }
+
+    50% {
+        transform: translateX(-233%) rotate(45deg) scale(1);
+    }
+
+    100% {
+        transform: translateX(-466%) rotate(45deg) scale(0);
+    }
+}
+
 
 .form-control {
     padding: 10px 14px 8px;
