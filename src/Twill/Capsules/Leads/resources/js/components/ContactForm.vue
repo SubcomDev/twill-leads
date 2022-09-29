@@ -4,15 +4,15 @@
             <input autoComplete="chrome-off" autoCorrect="chrome-off" autoCapitalize="chrome-off" minlength="3"
                 type="text" id="contact_name"
                 class="form-control rounded-[8px] active-header w-full form-control mb-2.5" placeholder="Nome*"
-                v-model="first_name" :class="[
-                    errorClass.first_name,
+                @keyup="this.errorClass.first_name =false" v-model=" first_name" :class="[
+                    errorClass.first_name, 
                     errorClass.first_name === true ? 'error' : '',
                 ]" />
 
             <input autoComplete="chrome-off" autoCorrect="chrome-off" autoCapitalize="chrome-off" minlength="3"
                 type="text" id="contact_surname"
                 class="form-control rounded-[8px] active-header w-full form-control mb-2.5" placeholder="Cognome*"
-                v-model="last_name" :class="[
+                @keyup="this.errorClass.last_name =false" v-model="last_name" :class="[
                     errorClass.last_name,
                     errorClass.last_name === true ? 'error' : '',
                 ]" />
@@ -46,6 +46,7 @@
 
             <textarea autocomplete="chrome-off" type="text" rows="7" id="ham" minlength="3" v-model="message"
                 :class="[errorClass.message, errorClass.message === true ? 'error' : '']"
+                @keyup="this.errorClass.message =false"
                 class="form-control rounded-[8px] active-header w-full form-control mb-2.5"
                 placeholder="Messaggio*"></textarea>
             <div class="container relative flex flex-col items-center">
@@ -136,7 +137,7 @@ export default {
 
             axios
                 .post(
-                    "/leads/contact/store?locale=" + this.locale,
+                    "/leads/contact/store?locale=" + this.$attrs["locale"],
                     {
                         first_name: this.first_name,
                         last_name: this.last_name,

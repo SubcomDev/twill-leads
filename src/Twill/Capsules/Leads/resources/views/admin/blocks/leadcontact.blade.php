@@ -6,6 +6,11 @@
 'maxlength' => 100,
 'required' => true,
 'placeholder' => 'Email',
+'note' => 'Inserisci l email'
+])
+
+@twillBlockValidationRules([
+    'email' => 'required|email',
 ])
 
 @formField('input', [
