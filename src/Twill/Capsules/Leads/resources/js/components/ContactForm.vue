@@ -50,14 +50,24 @@
                 class="form-control rounded-[8px] active-header w-full form-control mb-2.5"
                 placeholder="Messaggio*"></textarea>
             <div class="container relative flex flex-col items-center">
-                <button style="width: 96px; height: 44px" type="button" @click.prevent="sendData"
-                    class="border rounded-3xl text-center text-white bg-blue-700 sm:w-fit hover:bg-blue-700">
-                    <div v-if="loading" class="looping-rhombuses-spinner">
-                        <div class="rhombus"></div>
-                        <div class="rhombus"></div>
-                        <div class="rhombus"></div>
-                    </div>
-                    <span v-else>{{ this.label }}</span>
+                <button :disabled="loading" type="button" style="width: 96px; height: 44px" @click.prevent="sendData"
+                    :class="[
+                        loading,
+                        loading === true
+                            ? 'inline-flex bg-gray-400 hover:bg-gray-400'
+                            : '',
+                    ]"
+                    class="items-center text-center px-4 py-2 font-semibold leading-6 text-sm shadow rounded-3xl text-white bg-blue-700 sm:w-fit hover:bg-blue-700 transition ease-in-out duration-150">
+                    <svg v-if="loading" class="animate-spin mr-3 h-5 w-5 text-white -ml-1"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                        </circle>
+                        <path class="opacity-75" fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                        </path>
+                    </svg>
+
+                    <span>{{ this.label }}</span>
                 </button>
             </div>
         </form>
@@ -76,6 +86,18 @@ import axios from "axios";
 export default {
     name: "ContactForm",
     props: {
+        success_message: {
+            type: String,
+            default: "Success",
+        },
+        admin_email: {
+            type: String,
+            default: "",
+        },
+        locale: {
+            type: String,
+            default: "it",
+        },
         label: {
             type: String,
             default: "Send",
@@ -88,6 +110,7 @@ export default {
     data() {
         return {
             loading: false,
+            email: "",
             first_name: "",
             last_name: "",
             company: "",
@@ -157,9 +180,9 @@ export default {
                         company: this.company,
                         phone_nr: this.phone_nr,
                         message: this.message,
-                        admin_email: this.$attrs["admin_email"],
-                        success_message: this.$attrs["success_message"],
-                        locale: this.$attrs["locale"],
+                        admin_email: this.admin_email,
+                        success_message: this.success_message,
+                        locale: this.locale,
                     },
 
                     this.handleMailResponse
@@ -216,56 +239,6 @@ export default {
 </script>
 
 <style scoped>
-.looping-rhombuses-spinner,
-.looping-rhombuses-spinner * {
-    box-sizing: border-box;
-}
-
-.looping-rhombuses-spinner {
-    width: calc(15px * 4);
-    height: 15px;
-    position: relative;
-}
-
-.looping-rhombuses-spinner .rhombus {
-    height: 15px;
-    width: 15px;
-    background-color: #fff;
-    left: calc(15px * 4);
-    position: absolute;
-    margin: 0 auto;
-    border-radius: 2px;
-    transform: translateY(0) rotate(45deg) scale(0);
-    animation: looping-rhombuses-spinner-animation 2500ms linear infinite;
-}
-
-.looping-rhombuses-spinner .rhombus:nth-child(1) {
-    animation-delay: calc(2500ms * 1 / -1.5);
-}
-
-.looping-rhombuses-spinner .rhombus:nth-child(2) {
-    animation-delay: calc(2500ms * 2 / -1.5);
-}
-
-.looping-rhombuses-spinner .rhombus:nth-child(3) {
-    animation-delay: calc(2500ms * 3 / -1.5);
-}
-
-@keyframes looping-rhombuses-spinner-animation {
-    0% {
-        transform: translateX(0) rotate(45deg) scale(0);
-    }
-
-    50% {
-        transform: translateX(-233%) rotate(45deg) scale(1);
-    }
-
-    100% {
-        transform: translateX(-466%) rotate(45deg) scale(0);
-    }
-}
-
-
 .form-control {
     padding: 10px 14px 8px;
     outline: 1px solid transparent;
