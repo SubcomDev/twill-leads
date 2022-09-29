@@ -31,7 +31,7 @@
 
                     <input type="checkbox" id="checkbox" v-model="checked" required />
                     <label class="ml-2" for="checkbox">
-                        <a href="/privacy-policy">{{ privacy }}</a></label>
+                        <a href="/privacy-policy" class="text-blue-500">{{ privacy }}</a></label>
                     <div class="my-5">
                         <input
                             class="px-4 py-3 w-full text-gray-500 font-medium text-center placeholder-gray-500 outline-none border border-gray-300 rounded-lg focus:ring focus:ring-indigo-300"
@@ -41,7 +41,7 @@
                     <div class="my-10 text-center">
                         <button
                             class="py-4 px-6 w-full text-white font-semibold border border-blue-700 rounded-xl shadow-4xl focus:ring focus:ring-blue-300 bg-blue-600 hover:bg-blue-700 transition ease-in-out duration-200">
-                            {{ "Subscribe Now" }}
+                            {{ "Iscriviti ora" }}
                         </button>
                     </div>
                 </form>
