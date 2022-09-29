@@ -33,6 +33,11 @@ class LeadsServiceProvider extends TwillPackageServiceProvider
         ],'twill-leads-views-site');
 
         $this->publishes([
+            __DIR__ . '/Twill/Capsules/leads/resources/views/emails/contact.blade.php' => base_path('resources/views/emails/contact.blade.php'),
+        ],'twill-emails');
+
+
+        $this->publishes([
             __DIR__ . '/Twill/Capsules/leads/lang/en/success.php' => base_path('lang/en/success.php'),
             __DIR__ . '/Twill/Capsules/leads/lang/it/success.php' => base_path('lang/it/success.php'),
             __DIR__ . '/Twill/Capsules/leads/lang/it/validation.php' => base_path('lang/it/validation.php'),

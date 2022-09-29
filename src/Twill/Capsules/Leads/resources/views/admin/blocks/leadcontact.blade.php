@@ -20,3 +20,12 @@
 'translated' => true,
 'placeholder' => 'Message',
 ])
+
+@formField('input', [
+'name' => 'labelButton',
+'label' => 'Button',
+'maxlength' => 100,
+'required' => true,
+'translated' => true,
+'placeholder' => 'Label',
+])

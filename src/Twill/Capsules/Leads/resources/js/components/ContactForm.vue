@@ -52,7 +52,9 @@
             <div class="container relative flex flex-col items-center">
                 <button style="width: 96px; height: 44px" type="button" @click.prevent="sendData"
                     class="border rounded-3xl text-center text-white bg-blue-700 sm:w-fit hover:bg-blue-700">
-                    Send
+                    <img v-if="loading" class="loading -mt-3"
+                        :src="'https://images.squarespace-cdn.com/content/v1/5c4a3053b98a78bea1e90622/1575486969836-DQKSYYW7F60712AGPFKV/loader.gif'" />
+                    <span v-else>{{ this.label }}</span>
                 </button>
             </div>
         </form>
@@ -70,12 +72,19 @@ const expr = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+
 import axios from "axios";
 export default {
     name: "ContactForm",
+    props: {
+        label: {
+            type: String,
+            default: "Send",
+        },
+    },
     /**
      *
      */
 
     data() {
         return {
+            loading: false,
             first_name: "",
             last_name: "",
             company: "",
@@ -133,7 +142,7 @@ export default {
          *
          */
         sendData: function () {
-            this.$attrs["email"];
+            this.loading = !false;
 
             axios
                 .post(
@@ -162,6 +171,7 @@ export default {
                     }
                 })
                 .catch((error) => {
+                    this.loading = false;
                     if (error.response.data.errors.hasOwnProperty("first_name") == true) {
                         this.errorClass.first_name = true;
                     }
@@ -203,6 +213,10 @@ export default {
 </script>
 
 <style scoped>
+.loading {
+    width: 200px;
+}
+
 .form-control {
     padding: 10px 14px 8px;
     outline: 1px solid transparent;
@@ -256,3 +270,4 @@ textarea {
     color: #fd343b;
 }
 </style>
+    
