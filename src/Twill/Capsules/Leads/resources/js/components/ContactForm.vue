@@ -96,11 +96,11 @@ export default {
     props: {
         success_message: {
             type: String,
-            default: "Send",
+            default: "",
         },
         admin_email: {
             type: String,
-            default: "Send",
+            default: "",
         },
         locale: {
             type: String,
@@ -202,8 +202,8 @@ export default {
                 )
                 .then((response) => {
                     if (response.status == 200) {
-                        if (this.$attrs["success_message"]) {
-                            this.success.push(this.$attrs["success_message"]);
+                        if (this.success_message) {
+                            this.success.push(this.success_message);
                         } else {
                             this.success.push(response.data.message);
                         }
