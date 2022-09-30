@@ -41,14 +41,11 @@
             </div>
 
             <div class="container relative flex flex-col items-center">
-                <button @click.prevent="sendData" :disabled="!formValid" style="height: 44px" :class="[
-                    loading,
-                    loading === true
-                        ? 'inline-flex bg-zinc-400 hover:bg-zinc-400 cursor-not-allowed'
-                        : '',
+                <button @click.prevent="sendData" :disabled="!formValid" style="width: 96px; height: 44px" :class="[
+                    loading ? 'bg-zinc-400 hover:bg-zinc-400 cursor-not-allowed' : '',
                 ]"
                     class="button items-center text-center px-4 py-2 sm:w-fit bg-primary-color hover:bg-primary-color font-semibold leading-6 text-sm shadow rounded-3xl text-white transition ease-in-out duration-150">
-                    <svg v-if="loading" class="animate-spin mr-3 h-5 w-5 text-white -ml-1"
+                    <svg v-if="loading" class="animate-spin mr-3 h-5 w-5 text-white ml-5"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
                         </circle>
@@ -57,7 +54,7 @@
                         </path>
                     </svg>
 
-                    <span>{{ this.label }}</span>
+                    <span v-else class="text-lg">{{ this.label }}</span>
                 </button>
             </div>
         </form>
