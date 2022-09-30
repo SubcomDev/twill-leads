@@ -1,12 +1,14 @@
-<h2>Hey, It's me {{ $data->first_name }}</h2>
-<br>
+@component('mail::message')
+    <h2>Hey, It's me {{ $data->first_name }}</h2>
 
-<strong>User details: </strong><br>
-<strong>First Name: </strong>{{ $data->first_name }} <br>
-<strong>Last Name: </strong>{{ $data->last_name }} <br>
-<strong>Email: </strong>{{ $data->email }} <br>
-<strong>Company: </strong>{{ $data->company }} <br>
-<strong>Phone Nr: </strong>{{ $data->phone_nr }} <br>
-<strong>Message: </strong>{{ $data->message }} <br><br>
 
-Thank you
+    User details:
+    First Name: {{ $data->first_name }}
+    Last Name: {{ $data->last_name }}
+    Email: {{ $data->email }}
+    Company: {{ $data->company }}
+    Phone Nr: {{ $data->phone_nr }}
+    Message: {{ $data->message }}
+    Thank you
+    {{ config('app.name') }}
+@endcomponent
