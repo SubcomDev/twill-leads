@@ -1,34 +1,20 @@
 <template>
     <div class="flex flex-col">
         <form v-if="success.length == 0" ref="form" id="contactUSForm">
-            <input autoComplete="chrome-off" autoCorrect="chrome-off" autoCapitalize="chrome-off" minlength="3"
-                type="text" id="contact_name"
-                class="form-control rounded-[8px] active-header w-full form-control mb-2.5" placeholder="Nome*"
-                @keyup="this.errorClass.first_name = false" v-model="first_name" :class="[
-                    errorClass.first_name,
-                    errorClass.first_name === true ? 'error' : '',
-                ]" />
+            <input autoComplete="chrome-off" v-model="first_name" autoCorrect="chrome-off" autoCapitalize="chrome-off"
+                minlength="3" type="text" id="contact_name" :class="input_class + firstNameClassError"
+                placeholder="Nome*" />
 
             <input autoComplete="chrome-off" autoCorrect="chrome-off" autoCapitalize="chrome-off" minlength="3"
-                type="text" id="contact_surname"
-                class="form-control rounded-[8px] active-header w-full form-control mb-2.5" placeholder="Cognome*"
-                @keyup="this.errorClass.last_name = false" v-model="last_name" :class="[
-                    errorClass.last_name,
-                    errorClass.last_name === true ? 'error' : '',
-                ]" />
+                type="text" id="contact_surname" :class="input_class + lastNameClassError" placeholder="Cognome*"
+                v-model="last_name" />
 
             <input autoComplete="chrome-off" autoCorrect="chrome-off" autoCapitalize="chrome-off" type="email"
-                id="contact_email" class="form-control rounded-[8px] active-header w-full form-control mb-2.5"
-                placeholder="Email*" v-model="email" @keyup="ValidateEmail()"
-                :class="[errorClass.email, errorClass.email === true ? 'error' : '']" />
+                id="contact_email" :class="input_class + emailClassError" placeholder="Email*" v-model="email" />
 
             <div class="input-field relative flex items-center">
-                <input autocomplete="chrome-off" type="tel" id="phone_number"
-                    class="form-control rounded-[8px] active-header w-full form-control mb-2.5"
-                    placeholder="Telefono Facoltativo" v-model="phone_nr" :class="[
-                        errorClass.phone_nr,
-                        errorClass.phone_nr === true ? 'error' : '',
-                    ]" />
+                <input autocomplete="chrome-off" type="tel" id="phone_number" :class="input_class"
+                    placeholder="Telefono Facoltativo" v-model="phone_nr" />
                 <label for="phone_number" class="absolute left-[14px] bottom-[19px]">
                     <span class="fs-18 primary-color">Telefono</span>
                     <span class="fs-10 primary-color ml-1.5">Facoltativo</span>
@@ -36,8 +22,8 @@
             </div>
 
             <div class="input-field relative flex items-center">
-                <input autocomplete="chrome-off" type="text" v-model="company" id="azienda"
-                    class="form-control rounded-[8px] active-header w-full form-control mb-2.5" placeholder=" " />
+                <input autocomplete="chrome-off" type="text" v-model="company" id="azienda" :class="input_class"
+                    placeholder=" " />
                 <label for="azienda" class="absolute left-[14px] bottom-[19px]">
                     <span class="fs-18 primary-color">Azienda</span>
                     <span class="fs-10 primary-color ml-1.5">Facoltativo</span>
@@ -45,26 +31,23 @@
             </div>
 
             <textarea autocomplete="chrome-off" type="text" rows="7" id="ham" minlength="3" v-model="message"
-                :class="[errorClass.message, errorClass.message === true ? 'error' : '']"
-                @keyup="this.errorClass.message = false"
-                class="form-control rounded-[8px] active-header w-full form-control mb-2.5"
-                placeholder="Messaggio*"></textarea>
+                :class="input_class + messageClassError" placeholder="Messaggio*"></textarea>
+
             <div class="flex flex-row">
                 <input v-model="privacy_checkbox" type="checkbox" id="checkbox" name="privacy_checkbox" />
-                <span style="color: #ff0000; font-weight: bold" class="ml-2" for="checkbox">
+                <span class="ml-2 text-blue-600" for="checkbox">
                     <label v-html="privacy"></label>
                 </span>
             </div>
 
             <div class="container relative flex flex-col items-center">
-                <button @click.prevent="sendData" :disabled="!this.privacy_checkbox || loading" style="height: 44px"
-                    :class="[
-                        loading,
-                        loading === true
-                            ? 'inline-flex bg-slate-400 hover:bg-slate-400'
-                            : '',
-                    ]"
-                    class="button items-center text-center px-4 py-2 sm:w-fit bg-blue-700 hover:bg-blue-700 font-semibold leading-6 text-sm shadow rounded-3xl text-white transition ease-in-out duration-150">
+                <button @click.prevent="sendData" :disabled="!formValid" style="height: 44px" :class="[
+                    loading,
+                    loading === true
+                        ? 'inline-flex bg-zinc-400 hover:bg-zinc-400 cursor-not-allowed'
+                        : '',
+                ]"
+                    class="button items-center text-center px-4 py-2 sm:w-fit bg-primary-color hover:bg-primary-color font-semibold leading-6 text-sm shadow rounded-3xl text-white transition ease-in-out duration-150">
                     <svg v-if="loading" class="animate-spin mr-3 h-5 w-5 text-white -ml-1"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
@@ -78,11 +61,12 @@
                 </button>
             </div>
         </form>
-        <p v-if="success.length || success_message" class="container relative flex flex-col items-center mt-16">
-            <span v-for="suc in success" class="text-green-700 text-2xl">
+
+        <div v-if="success.length || success_message" class="container relative flex flex-col items-center mt-16">
+            <span :key="index" v-for="(suc, index) in success" class="text-green-700 text-2xl">
                 {{ suc }}
             </span>
-        </p>
+        </div>
     </div>
 </template>
 
@@ -140,21 +124,128 @@ export default {
                 email: false,
                 message: false,
             },
+
+            input_class:
+                "form-control rounded-[8px] active-header w-full form-control mb-2.5 ",
+
+            /**
+             *
+             */
+            firstNameLoaded: true,
+
+            /**
+             *
+             */
+            lastNameLoaded: true,
+
+            /**
+             *
+             */
+            emailLoaded: true,
+
+            /**
+             *
+             */
+            messageLoaded: true,
         };
     },
 
+    computed: {
+        /**
+         *
+         */
+        firstNameClassError() {
+            if (this.firstNameLoaded) return "";
+
+            if (this.first_name.length == 0 || this.errorClass.first_name == true)
+                return " error";
+
+            return "";
+        },
+
+        /**
+         *
+         */
+        lastNameClassError() {
+            if (this.lastNameLoaded) return "";
+
+            if (this.last_name.length == 0 || this.errorClass.last_name == true)
+                return " error";
+
+            return "";
+        },
+
+        /**
+         *
+         */
+        emailClassError() {
+            if (this.emailLoaded) return "";
+            if (
+                !expr.test(this.email) ||
+                this.errorClass.email == true ||
+                this.email.length == 0
+            )
+                return "error";
+
+            return "";
+        },
+
+        /**
+         *
+         */
+        messageClassError() {
+            if (this.messageLoaded) return "";
+
+            if (this.message.length == 0 || this.errorClass.message == true)
+                return " error";
+
+            return "";
+        },
+
+        /**
+         *
+         *
+         *
+         */
+        formValid() {
+            if (
+                this.first_name.length > 0 &&
+                this.last_name.length > 0 &&
+                this.message.length > 0 &&
+                this.email.length > 0 &&
+                this.privacy_checkbox == true
+            ) {
+                return true;
+            }
+
+            return false;
+        },
+    },
+
+    /**
+     *
+     */
     mounted() { },
 
     watch: {
         first_name(value) {
             // binding this to the data value in the first_name input
+            if (this.firstNameLoaded == true) {
+                this.firstNameLoaded = false;
+            }
             this.first_name = value;
         },
         last_name(value) {
+            if (this.lastNameLoaded == true) {
+                this.lastNameLoaded = false;
+            }
             // binding this to the data value in the last_name input
             this.last_name = value;
         },
         email(value) {
+            if (this.emailLoaded == true) {
+                this.emailLoaded = false;
+            }
             // binding this to the data value in the email input
             this.email = value;
         },
@@ -167,6 +258,9 @@ export default {
             this.phone_nr = value;
         },
         message(value) {
+            if (this.messageLoaded == true) {
+                this.messageLoaded = false;
+            }
             // binding this to the data value in the message input
             this.message = value;
         },
@@ -235,26 +329,14 @@ export default {
 
             // this.$refs.form.reset();
         },
-
-        ValidateEmail: function () {
-            if (!expr.test(this.email)) {
-                if (this.email.length >= 1) {
-                    this.errorClass.email = true;
-                } else {
-                    this.errorClass.email = false;
-                }
-            } else {
-                this.errorClass.email = false;
-            }
-        },
     },
 };
 </script>
 
 <style scoped>
-input[type="checkbox"]:checked+span {
-    color: blue !important;
-    font-weight: normal !important;
+button:disabled {
+    background: #d8e8e9;
+    color: #337fff;
 }
 
 .form-control {
