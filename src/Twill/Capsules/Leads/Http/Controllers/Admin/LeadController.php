@@ -26,6 +26,7 @@ class LeadController extends Controller
         $q = $request->get('q');
         $leads = new Lead();
 
+        $leads = $leads->orderBy('created_at','DESC');
         if ($q) {
             $leads = $leads->where('email', 'like', '%' . $q . '%');
         }

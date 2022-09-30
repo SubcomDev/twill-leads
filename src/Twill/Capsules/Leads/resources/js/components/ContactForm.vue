@@ -41,11 +41,9 @@
             </div>
 
             <div class="container relative flex flex-col items-center">
-                <button @click.prevent="sendData" :disabled="!formValid" style="width: 96px; height: 44px" :class="[
-                    loading ? 'bg-zinc-400 hover:bg-zinc-400 cursor-not-allowed' : '',
-                ]"
-                    class="button items-center text-center px-4 py-2 sm:w-fit bg-primary-color hover:bg-primary-color font-semibold leading-6 text-sm shadow rounded-3xl text-white transition ease-in-out duration-150">
-                    <svg v-if="loading" class="animate-spin mr-3 h-5 w-5 text-white ml-5"
+                <button @click.prevent="sendData" :disabled="!formValid" style="width: 96px; height: 44px"
+                    :class="button_class + buttonClassDisable">
+                    <svg v-if="loading" class="animate-spin mr-3 h-5 w-5 text-gray-500 ml-5"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
                         </circle>
@@ -102,6 +100,7 @@ export default {
 
     data() {
         return {
+            disabled: false,
             loading: false,
             privacy_checkbox: false,
             email: "",
@@ -124,6 +123,9 @@ export default {
 
             input_class:
                 "form-control rounded-[8px] active-header w-full form-control mb-2.5 ",
+
+            button_class:
+                "button items-center text-center px-4 py-2 sm:w-fit bg-primary-color  font-semibold leading-6 text-sm border rounded-3xl mt-5 text-white transition ease-in-out duration-150",
 
             /**
              *
@@ -196,6 +198,15 @@ export default {
             if (this.message.length == 0 || this.errorClass.message == true)
                 return " error";
 
+            return "";
+        },
+
+        /**
+         *
+         */
+        buttonClassDisable() {
+            if (this.loading && this.loading === true)
+                return "inline-flex active-header cursor-not-allowed";
             return "";
         },
 
@@ -332,8 +343,8 @@ export default {
 
 <style scoped>
 button:disabled {
-    background: #d8e8e9;
-    color: #337fff;
+    background: #fff;
+    color: #e7e9ff;
 }
 
 .form-control {
