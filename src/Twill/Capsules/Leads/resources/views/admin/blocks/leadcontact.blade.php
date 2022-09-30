@@ -2,7 +2,8 @@
 @twillBlockIcon('b-mail')
 @formField('input', [
 'name' => 'email',
-'label' => 'Email',
+'label' => 'Email Destinatario',
+'type' => 'email',
 'maxlength' => 100,
 'required' => true,
 'placeholder' => 'Email',
@@ -15,17 +16,26 @@
 
 @formField('input', [
 'name' => 'success_message',
-'label' => 'Message',
+'label' => 'Messaggio Thank you',
 'type' => 'textarea',
 'translated' => true,
-'placeholder' => 'Message',
+'placeholder' => 'Messaggio Thank you',
 ])
 
 @formField('input', [
 'name' => 'labelButton',
-'label' => 'Button',
+'label' => 'Etichetta pulsante Invio',
 'maxlength' => 100,
 'required' => true,
 'translated' => true,
 'placeholder' => 'Label',
+])
+
+@formField('input', [
+'name' => 'privacy_description',
+'label' => 'Testo accettazione privacy',
+'translated' => true,
+'type' => 'textarea',
+'editSource' => true,
+'placeholder' => 'Privacy Description',
 ])

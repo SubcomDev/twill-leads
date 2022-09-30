@@ -4,15 +4,15 @@
             <input autoComplete="chrome-off" autoCorrect="chrome-off" autoCapitalize="chrome-off" minlength="3"
                 type="text" id="contact_name"
                 class="form-control rounded-[8px] active-header w-full form-control mb-2.5" placeholder="Nome*"
-                @keyup="this.errorClass.first_name =false" v-model=" first_name" :class="[
-                    errorClass.first_name, 
+                @keyup="this.errorClass.first_name = false" v-model="first_name" :class="[
+                    errorClass.first_name,
                     errorClass.first_name === true ? 'error' : '',
                 ]" />
 
             <input autoComplete="chrome-off" autoCorrect="chrome-off" autoCapitalize="chrome-off" minlength="3"
                 type="text" id="contact_surname"
                 class="form-control rounded-[8px] active-header w-full form-control mb-2.5" placeholder="Cognome*"
-                @keyup="this.errorClass.last_name =false" v-model="last_name" :class="[
+                @keyup="this.errorClass.last_name = false" v-model="last_name" :class="[
                     errorClass.last_name,
                     errorClass.last_name === true ? 'error' : '',
                 ]" />
@@ -46,18 +46,25 @@
 
             <textarea autocomplete="chrome-off" type="text" rows="7" id="ham" minlength="3" v-model="message"
                 :class="[errorClass.message, errorClass.message === true ? 'error' : '']"
-                @keyup="this.errorClass.message =false"
+                @keyup="this.errorClass.message = false"
                 class="form-control rounded-[8px] active-header w-full form-control mb-2.5"
                 placeholder="Messaggio*"></textarea>
+            <div class="flex flex-row">
+                <input v-model="privacy_checkbox" type="checkbox" id="checkbox" name="privacy_checkbox" />
+                <span style="color: #ff0000; font-weight: bold" class="ml-2" for="checkbox">
+                    <label v-html="privacy"></label>
+                </span>
+            </div>
+
             <div class="container relative flex flex-col items-center">
-                <button :disabled="loading" type="button" style="width: 96px; height: 44px" @click.prevent="sendData"
+                <button @click.prevent="sendData" :disabled="!this.privacy_checkbox || loading" style="height: 44px"
                     :class="[
                         loading,
                         loading === true
-                            ? 'inline-flex bg-gray-400 hover:bg-gray-400'
+                            ? 'inline-flex bg-slate-400 hover:bg-slate-400'
                             : '',
                     ]"
-                    class="items-center text-center px-4 py-2 font-semibold leading-6 text-sm shadow rounded-3xl text-white bg-blue-700 sm:w-fit hover:bg-blue-700 transition ease-in-out duration-150">
+                    class="button items-center text-center px-4 py-2 sm:w-fit bg-blue-700 hover:bg-blue-700 font-semibold leading-6 text-sm shadow rounded-3xl text-white transition ease-in-out duration-150">
                     <svg v-if="loading" class="animate-spin mr-3 h-5 w-5 text-white -ml-1"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
@@ -83,16 +90,17 @@
 const expr = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
 
 import axios from "axios";
+
 export default {
     name: "ContactForm",
     props: {
         success_message: {
             type: String,
-            default: "Success",
+            default: "Send",
         },
         admin_email: {
             type: String,
-            default: "",
+            default: "Send",
         },
         locale: {
             type: String,
@@ -102,6 +110,10 @@ export default {
             type: String,
             default: "Send",
         },
+        privacy: {
+            type: String,
+            default: null,
+        },
     },
     /**
      *
@@ -110,6 +122,7 @@ export default {
     data() {
         return {
             loading: false,
+            privacy_checkbox: false,
             email: "",
             first_name: "",
             last_name: "",
@@ -172,7 +185,7 @@ export default {
 
             axios
                 .post(
-                    "/leads/contact/store?locale=" + this.$attrs["locale"],
+                    "/leads/contact/store?locale=" + this.locale,
                     {
                         first_name: this.first_name,
                         last_name: this.last_name,
@@ -239,6 +252,11 @@ export default {
 </script>
 
 <style scoped>
+input[type="checkbox"]:checked+span {
+    color: blue !important;
+    font-weight: normal !important;
+}
+
 .form-control {
     padding: 10px 14px 8px;
     outline: 1px solid transparent;
@@ -292,4 +310,3 @@ textarea {
     color: #fd343b;
 }
 </style>
-    
